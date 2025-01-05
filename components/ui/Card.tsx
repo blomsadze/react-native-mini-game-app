@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import { Colors } from "../../constants/colors";
 
 type TCardProps = {
@@ -12,9 +12,11 @@ const Card: FC<TCardProps> = ({ children }) => {
 
 export { Card };
 
+const deviceWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   container: {
-    marginTop: 36,
+    marginTop: deviceWidth < 380 ? 18 : 36,
     marginHorizontal: 24,
     borderRadius: 8,
     padding: 16,

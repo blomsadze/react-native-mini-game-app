@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, useWindowDimensions, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { PrimaryButton, Title, Card, InstructionText } from "../components/ui";
@@ -17,8 +17,9 @@ let maxBoundary = 100;
 
 const GameScreen: FC<TGameScreenProps> = ({ userNumber, onGameOver }) => {
   const initialGuess = generateRandomNumber(1, 100, Number(userNumber));
-
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
+
+  const { width } = useWindowDimensions();
 
   const nextGuessHandler = (direction: Direction) => {
     if (
@@ -54,9 +55,8 @@ const GameScreen: FC<TGameScreenProps> = ({ userNumber, onGameOver }) => {
     maxBoundary = 100;
   }, []);
 
-  return (
-    <View style={styles.screen}>
-      <Title>Opponent's Guess</Title>
+  let content = (
+    <>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card>
         <InstructionText>Higher or lower?</InstructionText>
@@ -81,7 +81,42 @@ const GameScreen: FC<TGameScreenProps> = ({ userNumber, onGameOver }) => {
           </View>
         </View>
       </Card>
-      {/* <View>LOG ROUNDS</View> */}
+    </>
+  );
+
+  if (width > 500) {
+    content = (
+      <>
+        <InstructionText>Higher or lower?</InstructionText>
+        <View style={styles.buttonsContainerWide}>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton
+              onPress={() => {
+                nextGuessHandler(Direction.Lower);
+              }}
+            >
+              <Ionicons name="remove" size={24} color="white" />
+            </PrimaryButton>
+          </View>
+          <NumberContainer>{currentGuess}</NumberContainer>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton
+              onPress={() => {
+                nextGuessHandler(Direction.Greater);
+              }}
+            >
+              <Ionicons name="add" size={24} color="white" />
+            </PrimaryButton>
+          </View>
+        </View>
+      </>
+    );
+  }
+
+  return (
+    <View style={styles.screen}>
+      <Title>Opponent's Guess</Title>
+      {content}
     </View>
   );
 };
@@ -100,5 +135,11 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
+  },
+  buttonsContainerWide: {
+    flexDirection: "row",
+    alignItems: "center",
+    // justifyContent: "space-around",
+    // marginTop: 12,
   },
 });

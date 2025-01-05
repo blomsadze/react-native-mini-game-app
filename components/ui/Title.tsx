@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { StyleSheet, Text } from "react-native";
+import { Platform, StyleSheet, Text } from "react-native";
 
 type TTitleProps = {
   children: React.ReactNode;
@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#ffffff",
     textAlign: "center",
-    borderWidth: 2,
+    // borderWidth: Platform.OS === "ios" ? 0 : 2,
+    borderWidth: Platform.select({ ios: 0, android: 2 }),
     borderColor: "#ffffff",
     padding: 12,
     maxWidth: "80%",

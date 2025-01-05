@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { ImageBackground, SafeAreaView, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
@@ -52,20 +53,22 @@ export default function App() {
   }
 
   return (
-    <LinearGradient
-      colors={[Colors.primary700, Colors.accent500]}
-      style={styles.rootScreen}
-    >
+    <>
       <StatusBar style="light" />
-      <ImageBackground
-        source={require("./assets/images/background.png")}
+      <LinearGradient
+        colors={[Colors.primary700, Colors.accent500]}
         style={styles.rootScreen}
-        // resizeMethod="cover"
-        imageStyle={{ opacity: 0.15 }}
       >
-        <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
-      </ImageBackground>
-    </LinearGradient>
+        <ImageBackground
+          source={require("./assets/images/background.png")}
+          style={styles.rootScreen}
+          // resizeMethod="cover"
+          imageStyle={{ opacity: 0.15 }}
+        >
+          <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
+        </ImageBackground>
+      </LinearGradient>
+    </>
   );
 }
 
